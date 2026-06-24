@@ -10,4 +10,3 @@
 - Matching is by property name, so a pair works across every collection and "tree"; the partner link lands wherever the target page has that field.
 - Delta-driven sync (per-field baseline + change diff) so deletions never resurrect or oscillate, and it always converges with no duplicate links.
 - Visual settings dialog ("Bidirectional Fields: Settings") to add pairs, picking from your existing page-link fields or any custom name; saved to the plugin config and applied immediately.
-- "Bidirectional Fields: Sync open pages" command to backfill reciprocal links for pages open in a panel.

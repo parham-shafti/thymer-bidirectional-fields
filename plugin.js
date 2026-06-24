@@ -31,9 +31,6 @@
  * Writes we make update our own cache immediately, so when the target page's panel
  * re-renders, its reconcile sees no delta and does nothing — no bounce, no loop.
  *
- * "Bidirectional Fields: Sync open pages" command re-mirrors open pages from their
- * current forward values (adds only) as a manual backstop / backfill.
- *
  * Configuration: plugin config `custom.pairs`, an array of two-name arrays:
  *   { "custom": { "pairs": [["Supports","Enabler"], ["Blocks","Blocked by"]] } }
  * No pairs are configured by default — nothing is mirrored until you add a pair
@@ -108,7 +105,6 @@ class Plugin extends AppPlugin {
   _cache = new Map();   // `${recGuid}\n${field}` -> last-known array of linked guids
   _seeded = new Set();  // recGuids whose baseline has been captured
 
-  _cmd = null;
   _cmdSettings = null;
 
   // settings dialog state
@@ -137,11 +133,6 @@ class Plugin extends AppPlugin {
         icon: "ti-arrows-exchange",
         onSelected: () => this.openSettings(),
       });
-      this._cmd = this.ui.addCommandPaletteCommand({
-        label: "Bidirectional Fields: Sync open pages",
-        icon: "ti-refresh",
-        onSelected: () => this._syncOpenPages(),
-      });
     } catch (e) { console.error("[bilinks] addCommandPaletteCommand failed", e); }
   }
 
@@ -152,7 +143,6 @@ class Plugin extends AppPlugin {
     this._firstPending.clear();
     this._cache.clear();
     this._seeded.clear();
-    if (this._cmd && this._cmd.remove) this._cmd.remove();
     if (this._cmdSettings && this._cmdSettings.remove) this._cmdSettings.remove();
     this.closeSettings();
   }
@@ -333,42 +323,6 @@ class Plugin extends AppPlugin {
       this.ui.addToaster({
         title: "Bidirectional Fields",
         message: parts.join(" / ") + " back-link" + (added + removed === 1 ? "" : "s") + ".",
-        dismissible: false,
-        autoDestroyTime: 2200,
-      });
-    } catch (_) {}
-  }
-
-  /* ---------- manual backstop ---------- */
-
-  // Re-mirror every open page from its current forward values (adds only — does
-  // not infer deletions). Useful for backfilling links made before the plugin ran.
-  _syncOpenPages() {
-    const seen = new Set();
-    let added = 0;
-    document.querySelectorAll(".panel-heading[data-banner-drop]").forEach((h) => {
-      if (h.getAttribute("data-is-collection") === "true") return;
-      const g = h.getAttribute("data-banner-drop");
-      if (!g || seen.has(g)) return;
-      seen.add(g);
-      const rec = this.data.getRecord(g);
-      if (!rec) return;
-      for (const F of this._fields) {
-        const partner = this._partner.get(F);
-        const prop = rec.prop(F);
-        if (!prop) continue;
-        for (const v of this._linkedGuids(prop)) {
-          if (v !== g && this._addLink(v, partner, g)) added++;
-        }
-      }
-      this._seedRecord(g); // refresh baseline
-    });
-    try {
-      this.ui.addToaster({
-        title: "Bidirectional Fields",
-        message: seen.size
-          ? "Synced " + seen.size + " page" + (seen.size === 1 ? "" : "s") + (added ? ", +" + added + " back-links" : "") + "."
-          : "No open pages to sync.",
         dismissible: false,
         autoDestroyTime: 2200,
       });

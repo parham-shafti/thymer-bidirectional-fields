@@ -75,6 +75,3 @@ edit by hand:
 ## Commands
 
 - **Bidirectional Fields: Settings** — open the visual pair editor.
-- **Bidirectional Fields: Sync open pages** — manually reconcile every page open
-  in a panel. Useful for backfilling links created before the plugin was on, or
-  any edits made outside the property panel UI.
