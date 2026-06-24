@@ -1,0 +1,11 @@
+{
+	"ver": 1,
+	"name": "Bidirectional Fields",
+	"icon": "ti-arrows-exchange",
+	"description": "Mirror two page-link fields as inverses — set or remove a link on one page and its reciprocal updates on the other.",
+	"custom": {
+		"pairs": [
+			["Supports", "Enabler"]
+		]
+	}
+}
