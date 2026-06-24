@@ -3,6 +3,8 @@
 A workspace-wide Thymer plugin that keeps two **page-link** property fields in
 sync as inverses of each other.
 
+![Bidirectional Fields demo — setting a link on one page mirrors the reciprocal on the other, and removing it clears the reciprocal too](assets/demo.gif)
+
 By default it pairs **Supports ↔ Enabler**:
 
 - Set page **A**'s *Supports* to link page **B** → **B**'s *Enabler* gains **A**.
@@ -45,6 +47,8 @@ Run the **Bidirectional Fields: Settings** command to open a visual editor. Add
 pairs, and for each side pick a property from the list of your existing page-link
 fields (gathered across all collections) or type any name. Click **Save** — the
 change applies immediately.
+
+![Bidirectional Fields settings dialog](assets/settings.png)
 
 A pair with the same name on both sides (e.g. `Related ↔ Related`) makes a single
 self-symmetric field. With no config it defaults to `Supports ↔ Enabler`.
