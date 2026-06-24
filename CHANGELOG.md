@@ -3,6 +3,7 @@
 ## v1.0.0 — 2026-06-24
 
 - Mirror two page-link (record) property fields as inverses, e.g. Supports ↔ Enabler.
+- No fields are paired by default — nothing is mirrored until you configure your own pair(s) in the settings dialog.
 - Both directions: set a link in either field and the reciprocal back-link is added on the target page.
 - Fully two-way: removing a link (including emptying a field) removes the reciprocal on the other page too.
 - Existing values are always preserved — back-links are appended, never overwritten.

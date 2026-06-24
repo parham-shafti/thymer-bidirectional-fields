@@ -5,7 +5,11 @@ sync as inverses of each other.
 
 ![Bidirectional Fields demo — setting a link on one page mirrors the reciprocal on the other, and removing it clears the reciprocal too](assets/demo.gif)
 
-By default it pairs **Supports ↔ Enabler**:
+**Nothing is mirrored out of the box.** You choose which two of *your* page-link
+fields to pair, in the settings — matched by name, so it works with whatever your
+collections call them.
+
+For example, pairing **Supports ↔ Enabler**:
 
 - Set page **A**'s *Supports* to link page **B** → **B**'s *Enabler* gains **A**.
 - Set page **A**'s *Enabler* to link page **B** → **B**'s *Supports* gains **A**.
@@ -51,7 +55,8 @@ change applies immediately.
 ![Bidirectional Fields settings dialog](assets/settings.png)
 
 A pair with the same name on both sides (e.g. `Related ↔ Related`) makes a single
-self-symmetric field. With no config it defaults to `Supports ↔ Enabler`.
+self-symmetric field. With no pairs configured, nothing is mirrored — add at least
+one pair for the plugin to do anything.
 
 Settings are stored in the plugin config under `custom.pairs`, which you can also
 edit by hand:

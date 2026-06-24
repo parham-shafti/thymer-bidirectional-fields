@@ -36,7 +36,8 @@
  *
  * Configuration: plugin config `custom.pairs`, an array of two-name arrays:
  *   { "custom": { "pairs": [["Supports","Enabler"], ["Blocks","Blocked by"]] } }
- * Default: [["Supports","Enabler"]]. Same name twice = a self-symmetric field.
+ * No pairs are configured by default — nothing is mirrored until you add a pair
+ * (via the settings dialog). Same name twice = a self-symmetric field.
  *
  * No `export` keyword — Thymer's Custom Code editor cannot apply it.
  * Read record links via prop.texts(); write via prop.set([...]) (prop.value is
@@ -93,7 +94,7 @@ const DASH_CSS = `
 `;
 
 class Plugin extends AppPlugin {
-  _DEFAULT_PAIRS = [["Supports", "Enabler"]];
+  _DEFAULT_PAIRS = []; // nothing is mirrored until the user configures a pair
   _pairs = [];          // canonical [[a, b], ...]
   _partner = new Map(); // fieldName -> partner fieldName
   _fields = [];         // all paired field names
