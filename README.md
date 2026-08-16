@@ -24,8 +24,11 @@ Both directions, and **fully mirrored**:
 
 ## Requirements
 
-Both paired fields must be **Page link (record) type** with **"Allow multiple
-values"** enabled, so links can accumulate.
+Both paired fields must be **Page link (record) type**. **"Allow multiple values"**
+is recommended so reciprocals can accumulate. A single-value field also works, but
+it can only hold one reciprocal: if it is already set to a different page, the
+plugin leaves that value alone and shows a toast naming the conflict, rather than
+overwriting it or silently failing.
 
 ## How it works
 
@@ -49,24 +52,41 @@ that side is silently skipped.
 
 Run the **Bidirectional Fields: Settings** command to open a visual editor. Add
 pairs, and for each side pick a property from the list of your existing page-link
-fields (gathered across all collections) or type any name. Click **Save** — the
-change applies immediately.
+fields (gathered across all collections) or type any name, then optionally limit
+that side to one collection. Click **Save** and the change applies immediately.
+The dialog follows your Thymer theme.
 
-![Bidirectional Fields settings dialog](assets/settings.png)
+![Bidirectional Fields settings dialog: a row per pair, each side showing its field and the collection it is limited to](assets/settings.png)
 
 A pair with the same name on both sides (e.g. `Related ↔ Related`) makes a single
 self-symmetric field. With no pairs configured, nothing is mirrored — add at least
 one pair for the plugin to do anything.
 
+### Limiting a pair to certain collections
+
+By default a pair applies wherever the two field names exist. Each side has an
+**In collection** dropdown, reading *All* until you limit it; open it and switch
+from **All collections** to **One collection** to pick one. This matters when a
+field name is reused across collections but the pairing only makes sense from one
+of them.
+
+Example: `Related Company` exists on People, Actions, Invoices and more, while
+`Employees` exists only on Companies. Unscoped, adding a Related Company to an
+*Action* would put the Action into the company's Employees. Scoped as
+`Related Company in Person ↔ Employees in Companies`, only People are mirrored
+into Employees, and adding a non-Person to Employees writes nothing back.
+
 Settings are stored in the plugin config under `custom.pairs`, which you can also
-edit by hand:
+edit by hand. Unscoped pairs are two-name arrays; scoped ones are objects with a
+collection id per side (`null` = any):
 
 ```json
 {
   "custom": {
     "pairs": [
       ["Supports", "Enabler"],
-      ["Blocks", "Blocked by"]
+      { "a": "Related Company", "aCol": "<Person collection id>",
+        "b": "Employees",       "bCol": "<Companies collection id>" }
     ]
   }
 }
