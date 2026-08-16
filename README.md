@@ -56,7 +56,7 @@ fields (gathered across all collections) or type any name, then optionally limit
 that side to one collection. Click **Save** and the change applies immediately.
 The dialog follows your Thymer theme.
 
-![Bidirectional Fields settings dialog: a row per pair, each side showing its field and the collection it is limited to](assets/settings.png)
+![Bidirectional Fields settings dialog: a row per pair, each side showing its field and the collection it is limited to](assets/settings-1.5.png)
 
 A pair with the same name on both sides (e.g. `Related ↔ Related`) makes a single
 self-symmetric field. With no pairs configured, nothing is mirrored — add at least
