@@ -74,7 +74,10 @@ const DASH_CSS = `
   --bl-chip: color-mix(in srgb, var(--text-color) 6%, transparent); --bl-chip-border: color-mix(in srgb, var(--text-color) 6%, transparent); --bl-chip-hover: color-mix(in srgb, var(--text-color) 10%, transparent);
   --bl-ctrl-border: color-mix(in srgb, var(--text-color) 16%, transparent); --bl-ctrl-border-hover: color-mix(in srgb, var(--text-color) 30%, transparent);
   --bl-dash: color-mix(in srgb, var(--text-color) 16%, transparent); --bl-dash-hover: color-mix(in srgb, var(--text-color) 40%, transparent);
-  --bl-accent: var(--button-primary-bg-color); --bl-on-accent: #fff;
+  /* Design: text on the accent is near-black (#10171b), not white. Thymer's own
+     --button-primary-fg-color is near-white on some themes, so it is not used here.
+     Accents are saturated mid-tones (teal, magenta, yellow), which dark text reads on. */
+  --bl-accent: var(--button-primary-bg-color); --bl-on-accent: #10171b;
   --bl-accent-text: var(--link-color); --bl-accent-soft: var(--link-color);
   --bl-accent-tint: color-mix(in srgb, var(--link-color) 8%, transparent);
   --bl-accent-tint-border: color-mix(in srgb, var(--link-color) 35%, transparent);
@@ -89,7 +92,6 @@ const DASH_CSS = `
   --bl-hair: color-mix(in srgb, var(--text-color) 7%, transparent);
   --bl-ctrl-border: color-mix(in srgb, var(--text-color) 9%, transparent); --bl-ctrl-border-hover: color-mix(in srgb, var(--text-color) 18%, transparent);
   --bl-dash: color-mix(in srgb, var(--text-color) 14%, transparent); --bl-dash-hover: color-mix(in srgb, var(--text-color) 28%, transparent);
-  --bl-on-accent: var(--button-primary-fg-color);
   --bl-accent-soft: color-mix(in srgb, var(--link-color) 78%, var(--text-color)); }
 .bl-shell { margin-top: 6vh; width: 1020px; max-width: calc(100vw - 32px); max-height: calc(100vh - 64px); display: flex; flex-direction: column; overflow: hidden; background: var(--bl-surface); color: var(--bl-t1); border: 1px solid var(--bl-hair); border-radius: 4px; box-shadow: 0 24px 60px -24px rgba(0,0,0,.7); font-family: "Space Grotesk", var(--font-sans); font-size: 14px; }
 .bl-shell * { box-sizing: border-box; }
