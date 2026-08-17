@@ -18,6 +18,7 @@
 
 - **The settings dialog follows your theme.** Every colour is derived from Thymer's own variables, so it matches Light, Dark and custom themes such as Neon Noir or Tokyo Techno instead of a fixed palette. The picker uses the native picker background.
 - The picker opens directly below its button, shrinking its list to fit and sliding up over the row near the bottom of the screen, so the switch is always reachable and the popup is never cut off.
+- **Narrow windows.** Below 900px each pair stacks onto two lines instead of scrolling sideways, so the second field, its collection and the remove button stay reachable. The picker never exceeds the window width.
 
 ## v1.0.0 — 2026-06-24
 
