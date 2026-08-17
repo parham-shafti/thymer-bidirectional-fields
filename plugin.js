@@ -160,7 +160,26 @@ const DASH_CSS = `
 .bl-pop-item.cur .nm { color: var(--bl-accent-soft); font-weight: 500; }
 .bl-pop-foot { padding: 8px 12px; font-size: 11.5px; color: var(--bl-t5); border-top: 1px solid var(--bl-hair); }
 .bl-pop-foot.act { cursor: pointer; color: var(--bl-accent-text); }
-@media (max-width: 900px) { .bl-shell { margin-top: 2vh; } .bl-head, .bl-body, .bl-foot { padding-left: 20px; padding-right: 20px; } }
+/* Narrow windows: the six columns cannot fit, so each pair stacks onto two
+ * lines. DOM order is fieldA, scopeA, arrow, fieldB, scopeB, remove, which in a
+ * 3-column grid lands exactly as: [field A][scope A][⇔] / [field B][scope B][×].
+ * The second pair of column headers is dropped; the first two still describe
+ * both lines. */
+@media (max-width: 900px) {
+  .bl-shell { margin-top: 2vh; }
+  .bl-head { padding: 24px 20px 18px; }
+  .bl-body { padding: 20px 20px 24px; }
+  .bl-foot { padding: 16px 20px; }
+  .bl-title { font-size: 24px; }
+  .bl-desc { font-size: 13.5px; }
+  .bl-grid { grid-template-columns: minmax(0,1fr) max-content 28px; gap: 6px 8px; }
+  .bl-grid > .bl-gh:nth-child(n+4) { display: none; }
+  .bl-scope { min-width: 118px; padding: 10px 12px; }
+  .bl-field { padding: 10px 12px; }
+  /* the second line of each pair carries the gap that separates the pairs */
+  .bl-field.bl-b, .bl-scope.bl-b, .bl-pair-remove { margin-bottom: 14px; }
+  .bl-add { width: calc(100% - 36px); }
+}
 `;
 
 // <<<SHARED option-menu — GENERATED, DO NOT EDIT HERE.
@@ -998,7 +1017,7 @@ class Plugin extends AppPlugin {
   }
 
   fieldSlot(p, key, colKey) {
-    const btn = this.mk("button", "bl-field" + (p[key] ? "" : " empty"), p[key] || "Choose field\u2026");
+    const btn = this.mk("button", "bl-field bl-" + key + (p[key] ? "" : " empty"), p[key] || "Choose field\u2026");
     btn.title = p[key] || "";
     btn.addEventListener("click", () => this.openFieldPicker(btn, p, key, colKey));
     return btn;
@@ -1007,7 +1026,7 @@ class Plugin extends AppPlugin {
   // Scope dropdown: reads "All" (quiet) or the collection name (teal), with a caret.
   scopeSlot(p, colKey, fieldKey) {
     const col = p[colKey] ? this._colByGuid(p[colKey]) : null;
-    const btn = this.mk("button", "bl-scope" + (p[colKey] ? " set" : ""));
+    const btn = this.mk("button", "bl-scope bl-" + fieldKey + (p[colKey] ? " set" : ""));
     btn.appendChild(this.mk("span", "lbl", p[colKey] ? (col ? col.name : "Unknown collection") : "All"));
     btn.appendChild(this.mk("span", "caret", "\u25BE"));
     btn.title = p[colKey] ? "Limited to " + (col ? col.name : "a collection") : "All collections";
@@ -1028,7 +1047,7 @@ class Plugin extends AppPlugin {
   // nothing: we only write on a choice.
   openScopePicker(anchor, p, colKey, fieldKey) {
     const r0 = anchor.getBoundingClientRect();
-    const width = Math.max(360, Math.round(r0.width));
+    const width = Math.min(Math.max(360, Math.round(r0.width)), window.innerWidth - 24);
     let mode = p[colKey] ? "one" : "all";
     const f = p[fieldKey];
     const cols = this._cols || [];
